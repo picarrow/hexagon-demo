@@ -45,10 +45,17 @@ public class Main extends Application
         System.out.println("Graph: " + graph);
         System.out.println("Path (H02 -> H20): " + path);
 
-
-        primaryStage.setTitle("JavaFX Experiment");//Window
+        //Javafx stuff
+	primaryStage.setTitle("JavaFX Experiment");//Window
         Pane pane = new Pane();//Pane contained in scene
         Scene scene = new Scene(pane, 1360, 700);//Set scene size
+	
+	for(Hex h:hexes)
+	{
+		double x = 10*h.getX();
+		double y = 10*h.getY();
+		pane.getChildren().add(new Hexagon(x,y));	
+	}
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
