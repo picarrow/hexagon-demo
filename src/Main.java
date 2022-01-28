@@ -1,6 +1,7 @@
 //Hexagon Grid
-//Author: Guiseppe Guerini - Main structure
-//Additional Contributor: Daniil Novikov - Javafx
+//Authors: 
+//Giuseppe Guerini - Main structure
+//Daniil Novikov - Javafx
 
 //Datastructure and filereading imports
 import java.io.BufferedReader;
