@@ -23,12 +23,12 @@ public class HexGraph
             graph.put(hex, new HashSet<>());
 
             Hex[] neighbors = new Hex[6];
-            neighbors[0] = new Hex(hex.getX() + 1, hex.getY());
-            neighbors[1] = new Hex(hex.getX() - 1, hex.getY());
-            neighbors[2] = new Hex(hex.getX(), hex.getY() + 1);
-            neighbors[3] = new Hex(hex.getX(), hex.getY() - 1);
-            neighbors[4] = new Hex(hex.getX() + 1, hex.getY() - 1);
-            neighbors[5] = new Hex(hex.getX() - 1, hex.getY() + 1);
+            neighbors[0] = new Hex(hex.getR() - 1, hex.getD() + 0);
+            neighbors[1] = new Hex(hex.getR() - 1, hex.getD() + 1);
+            neighbors[2] = new Hex(hex.getR() + 0, hex.getD() - 1);
+            neighbors[3] = new Hex(hex.getR() + 0, hex.getD() + 1);
+            neighbors[4] = new Hex(hex.getR() + 1, hex.getD() - 1);
+            neighbors[5] = new Hex(hex.getR() + 1, hex.getD() + 0);
 
             for(Hex neighbor : neighbors)
             {
@@ -40,17 +40,22 @@ public class HexGraph
         }
     }
 
-    public List<Hex> getPath(
-        Hex src,
-        Hex dst)
+    public Set<Hex> getHexes()
     {
-        return new DijkstraResult(src).pathTo(dst);
+        return new HashSet<>(graph.keySet());
     }
 
     public Set<Hex> getNeighborsOf(
         Hex hex)
     {
         return new HashSet<>(neighborsOf(hex));
+    }
+
+    public List<Hex> getPath(
+        Hex src,
+        Hex dst)
+    {
+        return new DijkstraResult(src).pathTo(dst);
     }
 
     @Override

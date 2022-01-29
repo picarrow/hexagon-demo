@@ -1,26 +1,26 @@
 public class Hex
 {
-    private final int x;
-    private final int y;
+    private final int r;
+    private final int d;
 
     // PUBLIC INTERFACE
 
     public Hex(
-        int x,
-        int y)
+        int r,
+        int d)
     {
-        this.x = x;
-        this.y = y;
+        this.r = r;
+        this.d = d;
     }
 
-    public int getX()
+    public int getR()
     {
-        return x;
+        return r;
     }
 
-    public int getY()
+    public int getD()
     {
-        return y;
+        return d;
     }
 
     @Override
@@ -29,22 +29,22 @@ public class Hex
     {
         return o != null
             && o instanceof Hex
-            && this.x == ((Hex)o).x
-            && this.y == ((Hex)o).y;
+            && this.r == ((Hex)o).r
+            && this.d == ((Hex)o).d;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 17;
-        hash = 31 * hash + x;
-        hash = 31 * hash + y;
+        hash = 31 * hash + r;
+        hash = 31 * hash + d;
         return hash;
     }
 
     @Override
     public String toString()
     {
-        return "H" + x + y;
+        return "H" + r + d;
     }
 }
