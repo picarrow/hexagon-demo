@@ -25,7 +25,7 @@ public class Main extends Application
 	
     public void start(Stage primaryStage)
     {
-	
+	System.out.println("start check");	
 	Set<Hex> hexes = null;
 
         try
@@ -53,9 +53,12 @@ public class Main extends Application
 	
 	for(Hex h:hexes)
 	{
-		double x = 10*h.getX();
-		double y = 10*h.getY();
+		double horSpacing = 17.3205080757;
+		double verSpacing = 20;	
+		double x = 680+horSpacing*h.getX();
+		double y = 350+verSpacing*h.getY();
 		pane.getChildren().add(new Hexagon(x,y));	
+		System.out.println("Adding Hexagon");
 	}
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
@@ -96,6 +99,7 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
+	System.out.println("main check");
         launch(args);
 	System.exit(0);
     }
