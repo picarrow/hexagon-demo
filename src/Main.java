@@ -1,33 +1,26 @@
-//Hexagon Grid
-//Authors: 
-//Giuseppe Guerini - Main structure
-//Daniil Novikov - Javafx
+// Hexagon Grid
+// Authors:
+// Giuseppe Guerini - Main structure
+// Daniil Novikov - Javafx
 
-//Datastructure and filereading imports
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-//Javafx and graphics imports
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Main extends Application
 {
-    /***
-     * Uses a BufferedReader to read hex coordinates, then transforms
-     * those coordinates into hexes.
-    ***/
-	
     public void start(Stage primaryStage)
     {
-	System.out.println("start check");	
-	Set<Hex> hexes = null;
+    	System.out.println("start check");
+    	Set<Hex> hexes = null;
 
         try
         {
@@ -48,26 +41,33 @@ public class Main extends Application
         System.out.println("Path (H02 -> H20): " + path);
 
         //Javafx stuff
-	primaryStage.setTitle("JavaFX Experiment");//Window
+    	primaryStage.setTitle("JavaFX Experiment");//Window
         Pane pane = new Pane();//Pane contained in scene
         Scene scene = new Scene(pane, 1360, 700);//Set scene size
 	
-	double horSpacing = 17.3205080757;
+    	double horSpacing = 17.3205080757;
         double verSpacing = 30;
-	for(Hex h:hexes)
-	{		
-		double r = h.getR();//row
-		double d = h.getD();//diagonal
-		double c = 2*d + r;//column
-		double x = 680+horSpacing*c;
-		double y = 350+verSpacing*r;
-		pane.getChildren().add(new Hexagon(x,y));	
-		pane.getChildren().add(new Text(x-5,y+5,h.toString()));
-		System.out.println("Adding Hexagon");
-	}
+
+    	for(Hex h : hexes)
+    	{
+    		double r = h.getR();//row
+    		double d = h.getD();//diagonal
+    		double c = 2*d + r;//column
+    		double x = 680+horSpacing*c;
+    		double y = 350+verSpacing*r;
+    		pane.getChildren().add(new Hexagon(x,y));
+    		pane.getChildren().add(new Text(x-5,y+5,h.toString()));
+    		System.out.println("Adding Hexagon");
+    	}
+
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
+
+    /***
+     * Uses a BufferedReader to read hex coordinates, then transforms
+     * those coordinates into hexes.
+    ***/
     private static Set<Hex> hexesFrom(
         String fileName)
         throws IOException
@@ -102,10 +102,11 @@ public class Main extends Application
         return hexes;
     }
 
-    public static void main(String[] args)
+    public static void main(
+        String[] args)
     {
-	System.out.println("main check");
+        System.out.println("main check");
         launch(args);
-	System.exit(0);
+        System.exit(0);
     }
 }
