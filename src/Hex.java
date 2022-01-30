@@ -45,6 +45,6 @@ public class Hex
     @Override
     public String toString()
     {
-        return "H" + r + d;
+        return r +", "+ d;
     }
 }

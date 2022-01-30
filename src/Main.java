@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 public class Main extends Application
 {
@@ -51,13 +52,17 @@ public class Main extends Application
         Pane pane = new Pane();//Pane contained in scene
         Scene scene = new Scene(pane, 1360, 700);//Set scene size
 	
+	double horSpacing = 17.3205080757;
+        double verSpacing = 30;
 	for(Hex h:hexes)
-	{
-		double horSpacing = 17.3205080757;
-		double verSpacing = 20;	
-		double x = 680+horSpacing*h.getX();
-		double y = 350+verSpacing*h.getY();
+	{		
+		double r = h.getR();//row
+		double d = h.getD();//diagonal
+		double c = 2*d + r;//column
+		double x = 680+horSpacing*c;
+		double y = 350+verSpacing*r;
 		pane.getChildren().add(new Hexagon(x,y));	
+		pane.getChildren().add(new Text(x-5,y+5,h.toString()));
 		System.out.println("Adding Hexagon");
 	}
         primaryStage.setScene(scene);//Add scene to window
