@@ -12,7 +12,7 @@ public class Hex
         this.r = r;
         this.d = d;
     }
-
+    
     public int getR()
     {
         return r;
