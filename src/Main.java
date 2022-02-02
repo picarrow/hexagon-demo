@@ -22,7 +22,7 @@ import javafx.event.EventHandler;
 public class Main extends Application {
 
     private Text mousePos = new Text();
-    private Map<Integer, Hex> coordMap = new HashMap<Integer, Hex>();
+    private static Set <Hex> hexes = new HashSet<>();
     public void start(
             Stage primaryStage) {
         System.out.println("start check");
@@ -60,9 +60,6 @@ public class Main extends Application {
         for (Hex h : hexes) {
             double r = h.getR(); // row
             double d = h.getD(); // diagonal
-            int hash = (int)(3*(r+3)+(d+4)*10);
-            coordMap.put(new Integer(hash), h);
-            System.out.println();
             double c = 2 * d + r; // column
             double x = 680 + horSpacing * c;
             double y = 350 + verSpacing * r;
@@ -72,10 +69,6 @@ public class Main extends Application {
             pane.getChildren().add(new Text(x - 10, y + 10, h.toString()));
             System.out.println("Adding Hexagon");
         }
-        for(Map.Entry m:coordMap.entrySet())
-        {  
-            System.out.println(m.getKey()+" "+m.getValue());  
-        }  
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
@@ -90,12 +83,12 @@ public class Main extends Application {
         double d = (c - r) / 2;
         int row = (int)(Math.round(r));
         int diagonal = (int)(Math.round(d));
-        int hash = (int)(3*(r+3)+(d+4)*10);
+        Hex h = new Hex(row, diagonal);
         
-        if(coordMap.containsKey(hash))//Currently does not work, key is never found
+        if(hexes.contains(h))//Currently does not work, key is never found
         {
             mousePos.setText("Mouse Pos: " + x + ", " + y + "\nHex: "+ row+", "+diagonal);
-            System.out.println("Hex detected" + coordMap.get(new Integer(hash))+"   "+row+", "+diagonal);
+            System.out.println("Hex detected" +"   "+row+", "+diagonal);
         }
         else
         {
@@ -112,7 +105,6 @@ public class Main extends Application {
     private static Set<Hex> hexesFrom(
             String fileName)
             throws IOException {
-        Set<Hex> hexes = new HashSet<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = br.readLine();
@@ -131,6 +123,7 @@ public class Main extends Application {
                 line = br.readLine();
             }
         } catch (IOException e) {
+            System.out.println("No file found");
             throw e;
         }
 
