@@ -60,7 +60,7 @@ public class Main extends Application {
         for (Hex h : hexes) {
             double r = h.getR(); // row
             double d = h.getD(); // diagonal
-            int hash = (int)(3*(r+3)*(d+4)*10);
+            int hash = (int)(3*(r+3)+(d+4)*10);
             coordMap.put(new Integer(hash), h);
             System.out.println();
             double c = 2 * d + r; // column
@@ -90,7 +90,7 @@ public class Main extends Application {
         double d = (c - r) / 2;
         int row = (int)(Math.round(r));
         int diagonal = (int)(Math.round(d));
-        int hash = (int)(3*(r+3)*(d+4)*10);
+        int hash = (int)(3*(r+3)+(d+4)*10);
         
         if(coordMap.containsKey(hash))//Currently does not work, key is never found
         {
