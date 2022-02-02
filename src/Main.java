@@ -9,25 +9,30 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 public class Main extends Application
 {
+    private Text mousePos = new Text();
     public void start(Stage primaryStage)
     {
     	System.out.println("start check");
     	Set<Hex> hexes = null;
-	Map<Hexagon, Hex> hexagonMap = new Map<Hexagon, Hex>();//Mapping displayed hexagons to respective hex objects
+	Map<Hexagon, Hex> hexagonMap = new HashMap<Hexagon, Hex>();//Mapping displayed hexagons to respective hex objects
         try
         {
             hexes = hexesFrom("hex-example-1.txt");
         }
         catch(Exception e)
         {
+	    System.out.println("No file Detected");
             return;
         }
 
@@ -44,10 +49,15 @@ public class Main extends Application
     	primaryStage.setTitle("JavaFX Experiment");//Window
         Pane pane = new Pane();//Pane contained in scene
         Scene scene = new Scene(pane, 1360, 700);//Set scene size
-	
+	pane.getChildren().add(mousePos);
+	mousePos.setX(10);
+	mousePos.setY(10);
+	pane.setOnMouseMoved(e -> {
+            DisplayMousePos(e);
+        });
     	double horSpacing = 17.3205080757;
         double verSpacing = 30;
-
+	System.out.println("check before adding hex");
     	for(Hex h : hexes)
     	{
     		double r = h.getR();//row
@@ -65,7 +75,10 @@ public class Main extends Application
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
-
+    public void DisplayMousePos(MouseEvent e)
+    {
+        mousePos.setText("Mouse Pos: "+e.getSceneX()+", "+e.getSceneY());
+    }
     /***
      * Uses a BufferedReader to read hex coordinates, then transforms
      * those coordinates into hexes.

@@ -3,11 +3,11 @@
 // Description: Prefabed Hexagon inheriting from Javafx Polygon
 
 import javafx.scene.shape.Polyline;
-
+import javafx.collections.ObservableList;
 public class Hexagon extends Polyline
 {
     private double centerX, centerY;
-    private final double radius = 10; //radius of circle hexagon is inscribed in
+    private final double radius = 20; //radius of circle hexagon is inscribed in
 
     public Hexagon(double x, double y)
     {
@@ -36,5 +36,4 @@ public class Hexagon extends Polyline
 	    }
 	    return true;
     }
-}
 }
