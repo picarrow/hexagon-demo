@@ -18,23 +18,20 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
-public class Main extends Application
-{
-    private Text mousePos = new Text();
 
+public class Main extends Application {
+
+    private Text mousePos = new Text();
+    private Map<int[], Hex> coordMap = new HashMap<int[], Hex>();
     public void start(
-        Stage primaryStage)
-    {
+            Stage primaryStage) {
         System.out.println("start check");
         Set<Hex> hexes = null;
         Map<Hexagon, Hex> hexagonMap = new HashMap<Hexagon, Hex>(); // Mapping displayed hexagons to respective hex objects
 
-        try
-        {
+        try {
             hexes = hexesFrom("hex-example-1.txt");
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("No file Detected");
             return;
         }
@@ -60,50 +57,62 @@ public class Main extends Application
         double verSpacing = 30;
         System.out.println("check before adding hex");
 
-        for(Hex h : hexes)
-        {
+        for (Hex h : hexes) {
             double r = h.getR(); // row
             double d = h.getD(); // diagonal
+            coordMap.put(new int []{h.getR(),h.getD()}, h);
+            System.out.println();
             double c = 2 * d + r; // column
             double x = 680 + horSpacing * c;
             double y = 350 + verSpacing * r;
-            Hexagon hexagon = new Hexagon(x,y);
+            Hexagon hexagon = new Hexagon(x, y);
             hexagonMap.put(hexagon, h);
             pane.getChildren().add(hexagon);
-            pane.getChildren().add(new Text(x-10,y+10,h.toString()));
+            pane.getChildren().add(new Text(x - 10, y + 10, h.toString()));
             System.out.println("Adding Hexagon");
         }
-
+        for(Map.Entry m:coordMap.entrySet())
+        {  
+            System.out.println(m.getKey()+" "+m.getValue());  
+        }  
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
 
     public void displayMousePos(
-        MouseEvent e)
-    {
-        mousePos.setText("Mouse Pos: " + e.getSceneX() + ", " + e.getSceneY());
+            MouseEvent e) {
+        double x = e.getSceneX();
+        double y = e.getSceneY();
+        //Find Hex from coordinates
+        double c = (x - 680) / 17.3205080757;
+        double r = (y - 350) / 30;
+        double d = (c - r) / 2;
+        int row = (int)(Math.round(r));
+        int diagonal = (int)(Math.round(d));
+        
+        mousePos.setText("Mouse Pos: " + x + ", " + y + "\nHex: "+ row+", "+diagonal);
+        if(coordMap.containsKey(new int[]{row, diagonal}))//Currently does not work, key is never found
+            System.out.println("Hex detected");
     }
 
-    /***
-     * Uses a BufferedReader to read hex coordinates, then transforms
-     * those coordinates into hexes.
-    ***/
+    /**
+     * *
+     * Uses a BufferedReader to read hex coordinates, then transforms those
+     * coordinates into hexes.
+    **
+     */
     private static Set<Hex> hexesFrom(
-        String fileName)
-        throws IOException
-    {
+            String fileName)
+            throws IOException {
         Set<Hex> hexes = new HashSet<>();
 
-        try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = br.readLine();
 
-            while(line != null)
-            {
+            while (line != null) {
                 String[] tokens = line.split(" ");
 
-                if(tokens.length != 2)
-                {
+                if (tokens.length != 2) {
                     throw new IllegalArgumentException();
                 }
 
@@ -113,9 +122,7 @@ public class Main extends Application
 
                 line = br.readLine();
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             throw e;
         }
 
@@ -123,8 +130,7 @@ public class Main extends Application
     }
 
     public static void main(
-        String[] args)
-    {
+            String[] args) {
         System.out.println("main check");
         launch(args);
     }
