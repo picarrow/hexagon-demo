@@ -22,7 +22,7 @@ import javafx.event.EventHandler;
 public class Main extends Application {
 
     private Text mousePos = new Text();
-    private Map<int[], Hex> coordMap = new HashMap<int[], Hex>();
+    private Map<Integer, Hex> coordMap = new HashMap<Integer, Hex>();
     public void start(
             Stage primaryStage) {
         System.out.println("start check");
@@ -60,7 +60,8 @@ public class Main extends Application {
         for (Hex h : hexes) {
             double r = h.getR(); // row
             double d = h.getD(); // diagonal
-            coordMap.put(new int []{h.getR(),h.getD()}, h);
+            int hash = (int)(3*(r+3)*(d+4)*10);
+            coordMap.put(new Integer(hash), h);
             System.out.println();
             double c = 2 * d + r; // column
             double x = 680 + horSpacing * c;
@@ -89,10 +90,17 @@ public class Main extends Application {
         double d = (c - r) / 2;
         int row = (int)(Math.round(r));
         int diagonal = (int)(Math.round(d));
+        int hash = (int)(3*(r+3)*(d+4)*10);
         
-        mousePos.setText("Mouse Pos: " + x + ", " + y + "\nHex: "+ row+", "+diagonal);
-        if(coordMap.containsKey(new int[]{row, diagonal}))//Currently does not work, key is never found
-            System.out.println("Hex detected");
+        if(coordMap.containsKey(hash))//Currently does not work, key is never found
+        {
+            mousePos.setText("Mouse Pos: " + x + ", " + y + "\nHex: "+ row+", "+diagonal);
+            System.out.println("Hex detected" + coordMap.get(new Integer(hash))+"   "+row+", "+diagonal);
+        }
+        else
+        {
+            mousePos.setText("Mouse Pos: " + x + ", " + y + "\nNo Hex Detected");
+        }
     }
 
     /**
