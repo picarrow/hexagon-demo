@@ -21,7 +21,7 @@ public class Main extends Application
     {
     	System.out.println("start check");
     	Set<Hex> hexes = null;
-
+	Map<Hexagon, Hex> hexagonMap = new Map<Hexagon, Hex>();//Mapping displayed hexagons to respective hex objects
         try
         {
             hexes = hexesFrom("hex-example-1.txt");
@@ -55,9 +55,11 @@ public class Main extends Application
     		double c = 2*d + r;//column
     		double x = 680+horSpacing*c;
     		double y = 350+verSpacing*r;
-    		pane.getChildren().add(new Hexagon(x,y));
-    		pane.getChildren().add(new Text(x-5,y+5,h.toString()));
-    		System.out.println("Adding Hexagon");
+    		Hexagon hexagon = new Hexagon(x,y);
+		hexagonMap.put(hexagon, h);
+		pane.getChildren().add(hexagon);	
+		pane.getChildren().add(new Text(x-10,y+10,h.toString()));
+		System.out.println("Adding Hexagon");
     	}
 
         primaryStage.setScene(scene);//Add scene to window
@@ -107,6 +109,5 @@ public class Main extends Application
     {
         System.out.println("main check");
         launch(args);
-        System.exit(0);
     }
 }
