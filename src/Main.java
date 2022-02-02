@@ -21,18 +21,21 @@ import javafx.event.EventHandler;
 public class Main extends Application
 {
     private Text mousePos = new Text();
-    public void start(Stage primaryStage)
+
+    public void start(
+        Stage primaryStage)
     {
-    	System.out.println("start check");
-    	Set<Hex> hexes = null;
-	Map<Hexagon, Hex> hexagonMap = new HashMap<Hexagon, Hex>();//Mapping displayed hexagons to respective hex objects
+        System.out.println("start check");
+        Set<Hex> hexes = null;
+        Map<Hexagon, Hex> hexagonMap = new HashMap<Hexagon, Hex>(); // Mapping displayed hexagons to respective hex objects
+
         try
         {
             hexes = hexesFrom("hex-example-1.txt");
         }
         catch(Exception e)
         {
-	    System.out.println("No file Detected");
+            System.out.println("No file Detected");
             return;
         }
 
@@ -46,39 +49,41 @@ public class Main extends Application
         System.out.println("Path (H02 -> H20): " + path);
 
         //Javafx stuff
-    	primaryStage.setTitle("JavaFX Experiment");//Window
-        Pane pane = new Pane();//Pane contained in scene
-        Scene scene = new Scene(pane, 1360, 700);//Set scene size
-	pane.getChildren().add(mousePos);
-	mousePos.setX(10);
-	mousePos.setY(10);
-	pane.setOnMouseMoved(e -> {
-            DisplayMousePos(e);
-        });
-    	double horSpacing = 17.3205080757;
+        primaryStage.setTitle("JavaFX Experiment"); // Window
+        Pane pane = new Pane(); // Pane contained in scene
+        Scene scene = new Scene(pane, 1360, 700); // Set scene size
+        pane.getChildren().add(mousePos);
+        mousePos.setX(10);
+        mousePos.setY(10);
+        pane.setOnMouseMoved(e -> displayMousePos(e));
+        double horSpacing = 17.3205080757;
         double verSpacing = 30;
-	System.out.println("check before adding hex");
-    	for(Hex h : hexes)
-    	{
-    		double r = h.getR();//row
-    		double d = h.getD();//diagonal
-    		double c = 2*d + r;//column
-    		double x = 680+horSpacing*c;
-    		double y = 350+verSpacing*r;
-    		Hexagon hexagon = new Hexagon(x,y);
-		hexagonMap.put(hexagon, h);
-		pane.getChildren().add(hexagon);	
-		pane.getChildren().add(new Text(x-10,y+10,h.toString()));
-		System.out.println("Adding Hexagon");
-    	}
+        System.out.println("check before adding hex");
+
+        for(Hex h : hexes)
+        {
+            double r = h.getR(); // row
+            double d = h.getD(); // diagonal
+            double c = 2 * d + r; // column
+            double x = 680 + horSpacing * c;
+            double y = 350 + verSpacing * r;
+            Hexagon hexagon = new Hexagon(x,y);
+            hexagonMap.put(hexagon, h);
+            pane.getChildren().add(hexagon);
+            pane.getChildren().add(new Text(x-10,y+10,h.toString()));
+            System.out.println("Adding Hexagon");
+        }
 
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
-    public void DisplayMousePos(MouseEvent e)
+
+    public void displayMousePos(
+        MouseEvent e)
     {
-        mousePos.setText("Mouse Pos: "+e.getSceneX()+", "+e.getSceneY());
+        mousePos.setText("Mouse Pos: " + e.getSceneX() + ", " + e.getSceneY());
     }
+
     /***
      * Uses a BufferedReader to read hex coordinates, then transforms
      * those coordinates into hexes.
