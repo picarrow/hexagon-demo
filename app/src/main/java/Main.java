@@ -31,7 +31,7 @@ public class Main
     {
         try
         {
-            hexes = Util.hexesOf("hex-example-0.txt");
+            hexes = Util.hexesOf("hex-example-1.txt");
         }
         catch(IOException e)
         {
