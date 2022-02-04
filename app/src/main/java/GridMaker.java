@@ -41,7 +41,7 @@ public class GridMaker
 
         try
         {
-            hexes = hexesFrom("hex-example-1.txt");
+            hexes = Util.hexesOf("hex-example-1.txt");
         }
         catch(Exception e)
         {
@@ -110,43 +110,6 @@ public class GridMaker
         {
             mousePos.setText("Mouse Pos: " + x + ", " + y + "\nNo Hex Detected");
         }
-    }
-
-    /**
-     * Uses a BufferedReader to read hex coordinates, then transforms those
-     * coordinates into hexes.
-     */
-    private static Set<Hex> hexesFrom(
-        String fileName)
-        throws IOException
-    {
-        try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
-        {
-            String line = br.readLine();
-
-            while(line != null)
-            {
-                String[] tokens = line.split(" ");
-
-                if (tokens.length != 2)
-                {
-                    throw new IllegalArgumentException();
-                }
-
-                int x = Integer.parseInt(tokens[0]);
-                int y = Integer.parseInt(tokens[1]);
-                hexes.add(new Hex(x, y));
-
-                line = br.readLine();
-            }
-        }
-        catch(IOException e)
-        {
-            System.out.println("No file found");
-            throw e;
-        }
-
-        return hexes;
     }
 
     public void writeHex()
