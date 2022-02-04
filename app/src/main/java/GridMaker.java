@@ -21,23 +21,30 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import javafx.event.EventHandler;
 
-public class GridMaker extends Application {
-
+public class GridMaker
+    extends Application
+{
     private Text mousePos = new Text();
     private static Set <Hex> hexes = new HashSet<>();
     private int currentRow;
     private int currentDiag;
     private Pane pane = new Pane(); // Pane contained in scene
+
     public void start(
-            Stage primaryStage) {
+        Stage primaryStage)
+    {
         System.out.println("start check");
         Set<Hex> hexes = null;
         Map<Hexagon, Hex> hexagonMap = new HashMap<Hexagon, Hex>(); // Mapping displayed hexagons to respective hex objects
         currentRow = 0;
         currentDiag = 0;
-        try {
+
+        try
+        {
             hexes = hexesFrom("hex-example-1.txt");
-        } catch (Exception e) {
+        }
+        catch(Exception e)
+        {
             System.out.println("No file Detected");
             return;
         }
@@ -63,7 +70,8 @@ public class GridMaker extends Application {
         double verSpacing = 30;
         System.out.println("check before adding hex");
 
-        for (Hex h : hexes) {
+        for (Hex h : hexes)
+        {
             double r = h.getR(); // row
             double d = h.getD(); // diagonal
             double c = 2 * d + r; // column
@@ -75,12 +83,14 @@ public class GridMaker extends Application {
             pane.getChildren().add(new Text(x - 10, y + 10, h.toString()));
             System.out.println("Adding Hexagon");
         }
+
         primaryStage.setScene(scene);//Add scene to window
         primaryStage.show();//Display window
     }
 
     public void displayMousePos(
-            MouseEvent e) {
+        MouseEvent e)
+    {
         double x = e.getSceneX();
         double y = e.getSceneY();
         //Find Hex from coordinates
@@ -90,6 +100,7 @@ public class GridMaker extends Application {
         currentRow = (int)(Math.round(r));
         currentDiag = (int)(Math.round(d));
         Hex h = new Hex(currentRow, currentDiag);
+
         if(hexes.contains(h))//Currently does not work, key is never found
         {
             mousePos.setText("Mouse Pos: " + x + ", " + y + "\nHex: "+ currentRow+", "+currentDiag);
@@ -102,22 +113,23 @@ public class GridMaker extends Application {
     }
 
     /**
-     * *
      * Uses a BufferedReader to read hex coordinates, then transforms those
      * coordinates into hexes.
-    **
      */
     private static Set<Hex> hexesFrom(
-            String fileName)
-            throws IOException {
-
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        String fileName)
+        throws IOException
+    {
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
+        {
             String line = br.readLine();
 
-            while (line != null) {
+            while(line != null)
+            {
                 String[] tokens = line.split(" ");
 
-                if (tokens.length != 2) {
+                if (tokens.length != 2)
+                {
                     throw new IllegalArgumentException();
                 }
 
@@ -127,12 +139,16 @@ public class GridMaker extends Application {
 
                 line = br.readLine();
             }
-        } catch (IOException e) {
+        }
+        catch(IOException e)
+        {
             System.out.println("No file found");
             throw e;
         }
+
         return hexes;
     }
+
     public void writeHex()
     {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("hex-example-1.txt", true)))
@@ -151,7 +167,8 @@ public class GridMaker extends Application {
     }
 
     public static void main(
-            String[] args) {
+        String[] args)
+    {
         System.out.println("main check");
         launch(args);
     }
