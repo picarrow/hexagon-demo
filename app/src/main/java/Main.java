@@ -6,29 +6,53 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 
-public class Main
+public final class Main
     extends Application
 {
-    private Text mouseLabel;
-    private Set<Hex> hexes;
+    public void init()
+    {
+        // some code that gets called automatically before start()
+    }
+
+    public void stop()
+    {
+        // some code that gets called after Platform.exit() is invoked.
+    }
 
     public void start(
         Stage stage)
     {
+        Button button = new Button("START!");
+        button.setOnAction(e -> loadNextScene(stage));
+
+        StackPane pane = new StackPane();
+        pane.getChildren().add(button);
+
+        stage.setTitle("JavaFX Experiment");
+        stage.setScene(new Scene(pane));
+        stage.show();
+    }
+
+    private void loadNextScene(
+        Stage stage)
+    {
+        Set<Hex> hexes = null;
+
         try
         {
             hexes = Util.hexesOf("hex-example-1.txt");
@@ -40,13 +64,9 @@ public class Main
             return;
         }
 
-        Pane canvas = new Pane();
-        Scene scene = new Scene(canvas);
-
-        mouseLabel = new Text();
+        Text mouseLabel = new Text();
         mouseLabel.setX(10);
         mouseLabel.setY(10);
-        canvas.setOnMouseMoved(e -> displayMousePos(e));
 
         System.out.println("Add Hex Check");
         Set<Hexagon> hexagons = new HashSet<>();
@@ -66,18 +86,20 @@ public class Main
             System.out.println("Hexagon Added");
         }
 
-        // stage.setMaxWidth(1920);
-        // stage.setMaxHeight(1080);
-        canvas.getChildren().add(mouseLabel);
-        canvas.getChildren().addAll(hexagons);
-        canvas.getChildren().addAll(hexLabels);
-        stage.setTitle("JavaFX Experiment");
-        stage.setScene(scene);
-        stage.show();
+        Pane pane = new Pane();
+        final Set<Hex> hexes1 = hexes;
+        pane.setOnMouseMoved(e -> updateMouseLabel(e, hexes1, mouseLabel));
+        pane.getChildren().add(mouseLabel);
+        pane.getChildren().addAll(hexagons);
+        pane.getChildren().addAll(hexLabels);
+
+        stage.setScene(new Scene(pane));
     }
 
-    public void displayMousePos(
-        MouseEvent e)
+    public void updateMouseLabel(
+        MouseEvent e,
+        Set<Hex> hexes,
+        Text mouseLabel)
     {
         double x = e.getSceneX();
         double y = e.getSceneY();

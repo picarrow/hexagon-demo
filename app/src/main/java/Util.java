@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
@@ -13,12 +14,12 @@ public class Util
      * coordinates into hexes.
      */
     public static Set<Hex> hexesOf(
-        String fileName)
+        String file)
         throws IOException
     {
         Set<Hex> hexes = new HashSet<>();
 
-        try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
+        try(BufferedReader br = new BufferedReader(new FileReader(file)))
         {
             String line = br.readLine();
 
@@ -37,6 +38,10 @@ public class Util
 
                 line = br.readLine();
             }
+        }
+        catch(FileNotFoundException e)
+        {
+            throw e;
         }
         catch(IOException e)
         {
