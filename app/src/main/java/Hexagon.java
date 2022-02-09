@@ -48,4 +48,12 @@ public class Hexagon
 
         return true;
     }
+    public double getX()
+    {
+        return centerX;
+    }
+    public double getY()
+    {
+        return centerY;
+    }
 }

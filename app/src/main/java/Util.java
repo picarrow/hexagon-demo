@@ -50,4 +50,19 @@ public class Util
 
         return hexes;
     }
+    public static Hexagon createHexagon(Hex h)//Converts Hex to Hexagon
+    {
+        return new Hexagon(680 + 17.3205080757 * h.getC(), 350 + 30 * h.getR());
+    }
+    public static int[] getHexCoords(double x, double y)//Finds coordinates of hex in given location on screen
+    {
+        double c = (x - 680) / 17.3205080757;
+        double r = (y - 350) / 30;
+        double d = (c - r) / 2;
+        return new int[]{(int)(Math.round(r)), (int)(Math.round(d))};
+    }
+    public static double[] getHexagonCoords(Hex h)//Converts Hex to Hexagon
+    {
+        return new double []{680 + 17.3205080757 * h.getC(), 350 + 30 * h.getR()};
+    }
 }

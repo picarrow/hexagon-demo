@@ -22,6 +22,10 @@ public class Hex
     {
         return d;
     }
+    public int getC()
+    {
+        return 2 * d + r;
+    }
 
     @Override
     public boolean equals(

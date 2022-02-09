@@ -3,13 +3,9 @@
 // Giuseppe Guerini - Main structure
 // Daniil Novikov - Javafx
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -37,18 +33,18 @@ public final class Main
     public void start(
         Stage stage)
     {
-        Button button = new Button("START!");
-        button.setOnAction(e -> loadNextScene(stage));
+        Button gameButton = new Button("START!");
+        gameButton.setOnAction(e -> loadNextScene(stage));
 
         StackPane pane = new StackPane();
-        pane.getChildren().add(button);
+        pane.getChildren().add(gameButton);
 
         stage.setTitle("JavaFX Experiment");
         stage.setScene(new Scene(pane));
         stage.show();
     }
-
-    private void loadNextScene(
+    
+    private void loadNextScene( //Reads file and draws 
         Stage stage)
     {
         Set<Hex> hexes = null;
@@ -71,18 +67,12 @@ public final class Main
         System.out.println("Add Hex Check");
         Set<Hexagon> hexagons = new HashSet<>();
         Set<Text> hexLabels = new HashSet<>();
-        double horSpacing = 17.3205080757;
-        double verSpacing = 30;
 
         for(Hex h : hexes)
         {
-            double r = h.getR(); // row
-            double d = h.getD(); // diagonal
-            double c = 2 * d + r; // column
-            double x = 680 + horSpacing * c;
-            double y = 350 + verSpacing * r;
-            hexagons.add(new Hexagon(x, y));
-            hexLabels.add(new Text(x - 10, y + 10, h.toString()));
+            double[] coords = Util.getHexagonCoords(h);
+            hexagons.add(Util.createHexagon(h));
+            hexLabels.add(new Text(coords[0]- 10, coords[1] + 10, h.toString()));
             System.out.println("Hexagon Added");
         }
 
@@ -101,25 +91,18 @@ public final class Main
         Set<Hex> hexes,
         Text mouseLabel)
     {
-        double x = e.getSceneX();
-        double y = e.getSceneY();
-        // Find Hex from coordinates
-        double c = (x - 680) / 17.3205080757;
-        double r = (y - 350) / 30;
-        double d = (c - r) / 2;
-        int row = (int)(Math.round(r));
-        int diagonal = (int)(Math.round(d));
-        Hex h = new Hex(row, diagonal);
+        int [] coords = Util.getHexCoords(e.getSceneX(), e.getSceneY());
+        Hex h = new Hex(coords[0], coords[1]);
         
         // If condition currently does not work, key is never found
         if(hexes.contains(h))
         {
-            mouseLabel.setText("Mouse Pos: " + x + ", " + y + "\nHex: " + row + ", " + diagonal);
-            System.out.println("Hex detected" + "   " + row + ", " + diagonal);
+            mouseLabel.setText("Mouse Pos: " + e.getSceneX() + ", " + e.getSceneY() + "\nHex: " + coords[0] + ", " + coords[1]);
+            System.out.println("Hex detected" + "   " + coords[0] + ", " + coords[1]);
         }
         else
         {
-            mouseLabel.setText("Mouse Pos: " + x + ", " + y + "\nNo Hex Detected");
+            mouseLabel.setText("Mouse Pos: " + e.getSceneX() + ", " + e.getSceneY() + "\nNo Hex Detected");
         }
     }
 
