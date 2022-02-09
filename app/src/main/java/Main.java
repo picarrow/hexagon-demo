@@ -44,7 +44,11 @@ public final class Main
         stage.show();
     }
     
-    private void loadNextScene( //Reads file and draws 
+
+    /**
+     * Reads files and draws
+    **/
+    private void loadNextScene(
         Stage stage)
     {
         Set<Hex> hexes = null;

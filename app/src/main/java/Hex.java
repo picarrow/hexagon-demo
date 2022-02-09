@@ -22,6 +22,7 @@ public class Hex
     {
         return d;
     }
+
     public int getC()
     {
         return 2 * d + r;
@@ -49,6 +50,6 @@ public class Hex
     @Override
     public String toString()
     {
-        return "[" + r +" "+ d + "]";
+        return "[" + r + " " + d + "]";
     }
 }
