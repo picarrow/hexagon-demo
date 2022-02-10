@@ -10,7 +10,22 @@ public class Hexagon
 {
     private double centerX, centerY;
     private final double radius = 20; // radius of circle hexagon is inscribed in
+    public Hexagon(
+        Hex h)
+    {
+        double [] coords = Util.getHexagonCoords(h);
+        centerX = coords[0];
+        centerY = coords[1];
+        Double[] p = new Double[14];
 
+        for(int i = 0; i < 7; i++)
+        {
+            p[2 * i] = centerX + radius * Math.cos(Math.toRadians(30 + i * 60));
+            p[2 * i + 1] = centerY + radius * Math.sin(Math.toRadians(30 + i * 60));
+        }
+
+        getPoints().addAll(p);
+    }
     public Hexagon(
         double x,
         double y)
